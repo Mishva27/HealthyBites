@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/magnify"
+        />
+
+    <item
+        android:id="@+id/add"
+        android:title="Add"/>
+
+    <item
+        android:id="@+id/mealPlanner"
+        android:title="Meal Planner"
+        android:icon="@drawable/ic_meal_planner"
+        />
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/account_info"
+        android:title="Account" />
+</menu>

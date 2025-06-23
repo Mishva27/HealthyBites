@@ -1,0 +1,18 @@
+<resources>
+    <color name="green">#4CAF50</color>
+    <color name="white">#FFFFFF</color>
+    <color name="primary">#003629</color>
+    <color name="secondary">#6C9F2D</color>
+    <color name="natural">#1A1A1A</color>
+
+    <color name="primary_light_color">#DFF3ED</color> <!-- Light mint to match dark green -->
+    <color name="secondary_light_color">#E8F4D8</color> <!-- Soft green for leafy match -->
+    <color name="primary_dark_color">#003629</color> <!-- Your original dark green -->
+    <color name="secondary_dark_color">#6C9F2D</color> <!-- Your original leafy green -->
+    <color name="text_color">#4A5A4A</color> <!-- Muted green-gray for readable text -->
+    <color name="gray">#D6E4D0</color> <!-- Light sage gray for borders/dividers -->
+    <color name="search_field_background">#F3FDF7</color> <!-- Soft mint-ivory for inputs -->
+    <color name="light_gray">#F0F0F0</color> <!-- Soft neutral for subtle contrast -->
+    <color name="seafoam_green">#A8D5BA</color> <!-- Calming light green accent -->
+    <color name="red">#FFD580</color> <!-- Light amber for warnings or alerts -->
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nutrition Summary"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Total values -->
+        <TextView android:id="@+id/totalCalories" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Calories: 0" />
+
+        <TextView android:id="@+id/totalCarbs" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Carbs: 0g" />
+
+        <TextView android:id="@+id/totalProteins" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Proteins: 0g" />
+
+        <TextView android:id="@+id/totalFats" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Fats: 0g" />
+
+        <!-- Feedback -->
+        <TextView
+            android:id="@+id/feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Feedback: "
+            android:layout_marginTop="16dp"
+            android:textStyle="italic"
+            android:textColor="#00796B" />
+    </LinearLayout>
+</ScrollView>
