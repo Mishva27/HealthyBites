@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/app_bar" />
+
     <!-- Main Content (No ScrollView now) -->
     <LinearLayout
         android:orientation="vertical"
@@ -13,46 +15,6 @@
         android:layout_height="match_parent"
         android:padding="16dp"
         android:paddingBottom="100dp">
-
-        <!-- Centered Welcome Header -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="32dp">
-
-            <ImageView
-                android:id="@+id/profileImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_default_user"
-                android:layout_marginBottom="12dp"
-                android:backgroundTint="@color/secondary"
-                android:contentDescription="Profile"
-                android:scaleType="centerCrop" />
-
-            <TextView
-                android:id="@+id/nameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hello, Mishva!"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/primary"
-                android:gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Welcome back!"
-                android:textSize="16sp"
-                android:textColor="@color/secondary"
-                android:gravity="center"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
-
-
         <!-- Logout Button -->
         <Button
             android:id="@+id/logoutButton"
@@ -61,7 +23,7 @@
             android:text="Logout"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/primary"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="100dp"
             android:layout_marginBottom="16dp" />
     </LinearLayout>
 
