@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:text="Sign Up"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#004D40"
+            android:backgroundTint="@color/primary"
             android:textColor="#FFFFFF" />
 
         <LinearLayout

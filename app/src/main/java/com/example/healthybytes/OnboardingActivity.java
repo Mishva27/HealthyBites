@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.healthybytes.adapters.OnboardingAdapter;
@@ -21,42 +23,47 @@ public class OnboardingActivity extends AppCompatActivity {
     private ViewPager2 onboardingViewPager;
     private LinearLayout layoutOnboardingIndicators;
     private Button buttonGetStarted;
+    private TextView textSkip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_onboarding_one);
+        setContentView(R.layout.activity_onboarding);
 
+        // Initialize views
         layoutOnboardingIndicators = findViewById(R.id.layoutOnboardingIndicators);
         buttonGetStarted = findViewById(R.id.buttonGetStarted);
+        textSkip = findViewById(R.id.textSkip);
+        onboardingViewPager = findViewById(R.id.onboardingViewPager);
 
         setupOnboardingItems();
 
-        onboardingViewPager = findViewById(R.id.onboardingViewPager);
         onboardingViewPager.setAdapter(onboardingAdapter);
-
         setupIndicators();
         setCurrentIndicator(0);
 
+        // Page change listener
         onboardingViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 setCurrentIndicator(position);
 
-                // Show button only on last page
-                if (position == onboardingAdapter.getItemCount() - 1) {
-                    buttonGetStarted.setVisibility(View.VISIBLE);
-                } else {
-                    buttonGetStarted.setVisibility(View.GONE);
-                }
+                boolean isLastPage = position == onboardingAdapter.getItemCount() - 1;
+                buttonGetStarted.setVisibility(isLastPage ? View.VISIBLE : View.GONE);
+                textSkip.setVisibility(isLastPage ? View.GONE : View.VISIBLE);
             }
         });
 
+        // Skip action
+        textSkip.setOnClickListener(v -> {
+            startActivity(new Intent(OnboardingActivity.this, WelcomeActivity.class));
+            finish();
+        });
+
+        // Get started action
         buttonGetStarted.setOnClickListener(v -> {
-            // Navigate to Welcome screen
-            Intent intent = new Intent(OnboardingActivity.this, WelcomeActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(OnboardingActivity.this, WelcomeActivity.class));
             finish();
         });
     }
@@ -66,7 +73,7 @@ public class OnboardingActivity extends AppCompatActivity {
 
         OnboardingItem item1 = new OnboardingItem();
         item1.setTitle("Track Your Meals Easily");
-        item1.setDescription("Log every bite with ease and stay on top of your nutrition.\n" + "HealthyBites makes meal tracking fast, simple, and smart.");
+        item1.setDescription("Log every bite with ease and stay on top of your nutrition. HealthyBites makes meal tracking fast, simple, and smart.");
         item1.setImage(R.drawable.track_your_meals);
 
         OnboardingItem item2 = new OnboardingItem();
@@ -76,7 +83,7 @@ public class OnboardingActivity extends AppCompatActivity {
 
         OnboardingItem item3 = new OnboardingItem();
         item3.setTitle("Reach Your Wellness Goals");
-        item3.setDescription("Whether it’s weight loss, balanced eating, or more energy — HealthyBites helps you stay consistent and");
+        item3.setDescription("Whether it’s weight loss, balanced eating, or more energy — HealthyBites helps you stay consistent and motivated.");
         item3.setImage(R.drawable.reach_goal);
 
         onboardingItems.add(item1);
@@ -97,7 +104,12 @@ public class OnboardingActivity extends AppCompatActivity {
 
         for (int i = 0; i < indicators.length; i++) {
             indicators[i] = new ImageView(getApplicationContext());
-            indicators[i].setImageDrawable(getDrawable(R.drawable.onboarding_indicator_inactive));
+            indicators[i].setImageDrawable(
+                    ContextCompat.getDrawable(
+                            getApplicationContext(),
+                            R.drawable.onboarding_indicator_inactive
+                    )
+            );
             indicators[i].setLayoutParams(layoutParams);
             layoutOnboardingIndicators.addView(indicators[i]);
         }
@@ -107,11 +119,12 @@ public class OnboardingActivity extends AppCompatActivity {
         int count = layoutOnboardingIndicators.getChildCount();
         for (int i = 0; i < count; i++) {
             ImageView imageView = (ImageView) layoutOnboardingIndicators.getChildAt(i);
-            if (i == index) {
-                imageView.setImageDrawable(getDrawable(R.drawable.onboarding_indicator_active));
-            } else {
-                imageView.setImageDrawable(getDrawable(R.drawable.onboarding_indicator_inactive));
-            }
+            int drawableId = (i == index)
+                    ? R.drawable.onboarding_indicator_active
+                    : R.drawable.onboarding_indicator_inactive;
+            imageView.setImageDrawable(
+                    ContextCompat.getDrawable(getApplicationContext(), drawableId)
+            );
         }
     }
 }

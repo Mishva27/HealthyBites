@@ -1,0 +1,100 @@
+<!-- res/layout/activity_user_profile.xml -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Wrap everything in a LinearLayout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- App Bar Include -->
+        <include layout="@layout/app_bar" />
+
+        <!-- User Input Form -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:paddingBottom="100dp">
+
+            <EditText
+                android:id="@+id/editTextFullName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Full Name "
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"/>
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Email Address"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"/>
+
+            <EditText
+                android:id="@+id/editTextGoal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="ser Goal (e.g., Weight Loss)"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"/>
+
+            <EditText
+                android:id="@+id/editTextAge"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Age"
+                android:inputType="number"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"/>
+
+            <EditText
+                android:id="@+id/editTextGender"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Gender"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"/>
+
+            <EditText
+                android:id="@+id/editTextHeight"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Height (cm)"
+                android:inputType="numberDecimal"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"/>
+
+            <EditText
+                android:id="@+id/editTextWeight"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Weight (kg)"
+                android:inputType="numberDecimal"
+                android:background="@drawable/rounded_edittext"
+                android:padding="12dp"/>
+
+            <Button
+                android:id="@+id/buttonSave"
+                android:text="Save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/primary" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
