@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
 
     private static final int SPLASH_DELAY = 2000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +28,14 @@ public class SplashActivity extends AppCompatActivity {
                 editor.putBoolean("first_time", false);
                 editor.apply();
 
-                // Show Welcome
-                startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
+                // ✅ Show onboarding screen
+                startActivity(new Intent(SplashActivity.this, OnboardingActivity.class));
             } else if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                // Already signed in
+                // ✅ Already signed in
                 startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             } else {
-                // Not first time, not signed in
-                startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                // ✅ Not first time and not signed in
+                startActivity(new Intent(SplashActivity.this, OnboardingActivity.class));
             }
 
             finish();
