@@ -65,19 +65,19 @@ public class OnboardingActivity extends AppCompatActivity {
         List<OnboardingItem> onboardingItems = new ArrayList<>();
 
         OnboardingItem item1 = new OnboardingItem();
-        item1.setTitle("Pay Your Bill Online");
-        item1.setDescription("Electric bill payment is a feature of online, mobile and telephone banking.");
-        item1.setImage(R.drawable.healthy_running);
+        item1.setTitle("Track Your Meals Easily");
+        item1.setDescription("Log every bite with ease and stay on top of your nutrition.\n" + "HealthyBites makes meal tracking fast, simple, and smart.");
+        item1.setImage(R.drawable.track_your_meals);
 
         OnboardingItem item2 = new OnboardingItem();
-        item2.setTitle("Your Food Is On The Way");
-        item2.setDescription("Our delivery rider is on the way to deliver your order.");
-        item2.setImage(R.drawable.healthy_food);
+        item2.setTitle("Get Personalized Health Tips");
+        item2.setDescription("Receive daily tips, healthy alternatives, and portion advice — all tailored to your eating habits and goals.");
+        item2.setImage(R.drawable.get_tips);
 
         OnboardingItem item3 = new OnboardingItem();
-        item3.setTitle("Eat Together");
-        item3.setDescription("Enjoy your meal and have a great day. Don't forget to rate us.");
-        item3.setImage(R.drawable.healthy_man);
+        item3.setTitle("Reach Your Wellness Goals");
+        item3.setDescription("Whether it’s weight loss, balanced eating, or more energy — HealthyBites helps you stay consistent and");
+        item3.setImage(R.drawable.reach_goal);
 
         onboardingItems.add(item1);
         onboardingItems.add(item2);
