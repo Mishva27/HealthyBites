@@ -17,5 +17,10 @@
     <color name="search_field_background">#F3FDF7</color> <!-- Soft mint-ivory for inputs -->
     <color name="light_gray">#F0F0F0</color> <!-- Soft neutral for subtle contrast -->
     <color name="seafoam_green">#A8D5BA</color> <!-- Calming light green accent -->
-    <color name="red">#FFD580</color> <!-- Light amber for warnings or alerts -->
+    <color name="yellow">#FFD580</color> <!-- Light amber for warnings or alerts -->
+
+    <color name="blue">#2196F3</color>
+    <color name="orange">#FF9800</color>
+    <color name="red">#F44336</color>
+
 </resources>

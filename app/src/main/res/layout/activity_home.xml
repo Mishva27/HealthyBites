@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
-            <!-- ✅ Weight Card -->
+            <!--Weight Card -->
             <include
                 layout="@layout/layout_weight_card"
                 android:layout_width="match_parent"
@@ -31,11 +31,17 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="70dp"/>
 
+            <!-- Water Card -->
             <include
                 layout="@layout/activity_water_tracker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="7dp"/>
+
+            <!--  Card -->
+            <include
+                layout="@layout/activity_bmi" />
+
 
 
             <!-- ✅ Logout Button -->
