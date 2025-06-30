@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -68,10 +69,10 @@ public class SignInActivity extends AppCompatActivity {
                             Toast.makeText(SignInActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
 
                             // ✅ Redirect to HomeActivity
-                            Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // optional: clears back stack
-                            startActivity(intent);
-                            finish();
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if (user != null) {
+                                checkUserProfile(user.getUid());
+                            }
 
                         } else {
                             Toast.makeText(SignInActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -104,9 +105,9 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            startActivity(new Intent(SignInActivity.this, HomeActivity.class));
-            finish();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            checkUserProfile(currentUser.getUid());
         }
     }
 
@@ -132,12 +133,39 @@ public class SignInActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(SignInActivity.this, "Google Sign-In Successful!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SignInActivity.this, HomeActivity.class)); // ✅ Correct destination
-                        finish();
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            checkUserProfile(firebaseUser.getUid());
+                        }
                     }
                     else {
                         Toast.makeText(SignInActivity.this, "Firebase Auth Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
+
+    private void checkUserProfile(String uid) {
+        FirebaseFirestore.getInstance().collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // ✅ Profile exists → go to Home
+                        Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        // 🚀 Profile not filled yet → go to UserGoalSetupActivity
+                        Intent intent = new Intent(SignInActivity.this, UserGoalSetupActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(SignInActivity.this, "Error checking profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
 }

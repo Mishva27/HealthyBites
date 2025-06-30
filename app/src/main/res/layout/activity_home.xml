@@ -6,28 +6,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- ✅ App Bar at top -->
     <include layout="@layout/app_bar" />
 
-    <!-- Main Content (No ScrollView now) -->
-    <LinearLayout
-        android:orientation="vertical"
+    <!-- Whole scrollable content including AppBar -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:paddingBottom="100dp">
-        <!-- Logout Button -->
-        <Button
-            android:id="@+id/logoutButton"
+        android:layout_marginBottom="100dp"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/primary"
-            android:layout_marginTop="100dp"
-            android:layout_marginBottom="16dp" />
-    </LinearLayout>
+            android:padding="5dp">
 
-    <!-- Floating Action Button -->
+            <!-- ✅ Weight Card -->
+            <include
+                layout="@layout/layout_weight_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="70dp"/>
+
+            <include
+                layout="@layout/activity_water_tracker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="7dp"/>
+
+
+            <!-- ✅ Logout Button -->
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/primary"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ✅ Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -40,7 +65,7 @@
         app:maxImageSize="40dp"
         app:fabCustomSize="50dp" />
 
-    <!-- Bottom Navigation -->
+    <!-- ✅ Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

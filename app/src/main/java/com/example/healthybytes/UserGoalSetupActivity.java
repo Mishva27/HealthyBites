@@ -1,5 +1,6 @@
 package com.example.healthybytes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserGoalSetupActivity extends AppCompatActivity {
 
     EditText fullName, email, goal, age, gender, height, weight;
     Button saveButton;
@@ -21,7 +22,7 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_user_goalsetup);
 
         fullName = findViewById(R.id.editTextFullName);
         email = findViewById(R.id.editTextEmail);
@@ -77,10 +78,15 @@ public class UserProfileActivity extends AppCompatActivity {
                 .set(userMap)
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Profile saved!", Toast.LENGTH_SHORT).show();
-                    // Navigate to home screen or next activity
+
+                    // ✅ Redirect to HomeActivity
+                    Intent intent = new Intent(UserGoalSetupActivity.this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 }
