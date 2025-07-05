@@ -1,4 +1,4 @@
-package com.example.healthybytes.models;
+package com.example.healthybites.models;
 
 public class FoodItem {
     private String name;

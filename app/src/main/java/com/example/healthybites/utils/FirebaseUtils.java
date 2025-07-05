@@ -1,4 +1,4 @@
-package com.example.healthybytes.utils;
+package com.example.healthybites.utils;
 
 
 //Firebase helper functions

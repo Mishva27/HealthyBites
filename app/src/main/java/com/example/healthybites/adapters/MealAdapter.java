@@ -1,4 +1,4 @@
-package com.example.healthybytes.adapters;
+package com.example.healthybites.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.healthybytes.R;
-import com.example.healthybytes.models.FoodItem;
-import com.example.healthybytes.models.Meal;
+import com.example.healthybites.R;
+import com.example.healthybites.models.FoodItem;
+import com.example.healthybites.models.Meal;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

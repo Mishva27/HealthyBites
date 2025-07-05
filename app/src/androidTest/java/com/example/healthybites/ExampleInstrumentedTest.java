@@ -1,4 +1,4 @@
-package com.example.healthybytes;
+package com.example.healthybites;
 
 import android.content.Context;
 

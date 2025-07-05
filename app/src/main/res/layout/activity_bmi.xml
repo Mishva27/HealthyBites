@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:layout_marginTop="8dp"
-            android:text="Normal"
+            android:text="nun"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:background="@drawable/bg_bmi_badge" />

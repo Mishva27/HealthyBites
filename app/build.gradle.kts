@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.healthybytes"
+    namespace = "com.example.healthybites"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.healthybytes"
+        applicationId = "com.example.healthybites"
         minSdk = 23
         targetSdk = 35
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.example.healthybytes;
+package com.example.healthybites;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,11 +21,10 @@ public class SignInActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1001;
     private GoogleSignInClient mGoogleSignInClient;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in); // Make sure layout file name matches
+        setContentView(R.layout.activity_sign_in);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -34,20 +33,19 @@ public class SignInActivity extends AppCompatActivity {
         emailField = findViewById(R.id.usernameField);
         passwordField = findViewById(R.id.passwordField);
         loginButton = findViewById(R.id.loginButton);
-        googleLoginButton = findViewById(R.id.createAccountButton); // "Login with Google"
+        googleLoginButton = findViewById(R.id.createAccountButton); // Google login button
         forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
         createAccountLink = findViewById(R.id.createAccountLink);
 
-
         // Google Sign-In configuration
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)) // From google-services.json
+                .requestIdToken(getString(R.string.default_web_client_id)) // from google-services.json
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        //Create Account
+        // Create Account Link
         createAccountLink.setOnClickListener(view -> {
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
@@ -67,36 +65,28 @@ public class SignInActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(SignInActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-
-                            // ✅ Redirect to HomeActivity
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user != null) {
                                 checkUserProfile(user.getUid());
                             }
-
                         } else {
                             Toast.makeText(SignInActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
-
         });
 
-        // Google Sign-In Button
+        // Google Sign-In Button with signOut to force account chooser
         googleLoginButton.setOnClickListener(view -> {
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            startActivityForResult(signInIntent, RC_SIGN_IN);
+            // Sign out first to force account picker
+            mGoogleSignInClient.signOut().addOnCompleteListener(task -> {
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+            });
         });
 
         // Forgot Password
         forgotPasswordLink.setOnClickListener(view -> {
             Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
-            startActivity(intent);
-        });
-
-
-        // Redirect to SignUp
-        createAccountLink.setOnClickListener(view -> {
-            Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
     }
@@ -137,8 +127,7 @@ public class SignInActivity extends AppCompatActivity {
                         if (firebaseUser != null) {
                             checkUserProfile(firebaseUser.getUid());
                         }
-                    }
-                    else {
+                    } else {
                         Toast.makeText(SignInActivity.this, "Firebase Auth Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
@@ -150,13 +139,13 @@ public class SignInActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        // ✅ Profile exists → go to Home
+                        // Profile exists → go to Home
                         Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
                     } else {
-                        // 🚀 Profile not filled yet → go to UserGoalSetupActivity
+                        // Profile not filled yet → go to UserGoalSetupActivity
                         Intent intent = new Intent(SignInActivity.this, UserGoalSetupActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -167,5 +156,4 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(SignInActivity.this, "Error checking profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
-
 }

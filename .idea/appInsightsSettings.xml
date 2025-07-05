@@ -8,8 +8,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.healthybytes" />
-                  <option name="mobileSdkAppId" value="1:954301971461:android:d8cecf9de29db9433fb06c" />
+                  <option name="appId" value="com.example.healthybites" />
+                  <option name="mobileSdkAppId" value="1:954301971461:android:091d12c1d9f6c0833fb06c" />
                   <option name="projectId" value="healthybites-174bb" />
                   <option name="projectNumber" value="954301971461" />
                 </ConnectionSetting>

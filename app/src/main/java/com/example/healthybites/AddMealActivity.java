@@ -1,19 +1,18 @@
-package com.example.healthybytes;
+package com.example.healthybites;
 
 //log new meals
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.healthybytes.adapters.FoodItemAdapter;
-import com.example.healthybytes.models.FoodItem;
-import com.example.healthybytes.models.Meal;
-import com.example.healthybytes.utils.FirebaseUtils;
+import com.example.healthybites.adapters.FoodItemAdapter;
+import com.example.healthybites.models.FoodItem;
+import com.example.healthybites.models.Meal;
+import com.example.healthybites.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 

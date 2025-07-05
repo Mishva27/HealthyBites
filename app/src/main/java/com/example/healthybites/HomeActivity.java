@@ -1,4 +1,4 @@
-package com.example.healthybytes;
+package com.example.healthybites;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         weightTrendChart = findViewById(R.id.weightTrendChart);
         tvBMIBadge = findViewById(R.id.tvBMIBadge);
 
-
+        setupProfileIconClick();
         setUserGreeting();
         fetchUserDetailsAndCalculateBMI();
 
@@ -117,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
             String result = String.format("%.1f", bmi);
             tvBMIValue.setText(result);
 
-            // 🟢 Set BMI badge
+            // Set BMI badge
             if (bmi < 18.5f) {
                 tvBMIBadge.setText("Underweight");
                 tvBMIBadge.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.blue)));
@@ -186,7 +186,7 @@ public class HomeActivity extends AppCompatActivity {
                     LineData lineData = new LineData(dataSet);
                     weightTrendChart.setData(lineData);
 
-                    // ✅ CHART CONFIGURATION GOES HERE
+                    //  CHART CONFIGURATION GOES HERE
                     weightTrendChart.getDescription().setEnabled(false);
                     weightTrendChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
                     weightTrendChart.getAxisRight().setEnabled(false);
@@ -196,4 +196,12 @@ public class HomeActivity extends AppCompatActivity {
                     weightTrendChart.invalidate(); // redraw chart
                 });
     }
+
+    private void setupProfileIconClick() {
+        toolbarProfileIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
+    }
+
 }

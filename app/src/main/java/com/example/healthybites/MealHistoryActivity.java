@@ -1,16 +1,15 @@
-package com.example.healthybytes;
+package com.example.healthybites;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.healthybytes.adapters.MealAdapter;
-import com.example.healthybytes.models.Meal;
-import com.example.healthybytes.utils.FirebaseUtils;
+import com.example.healthybites.adapters.MealAdapter;
+import com.example.healthybites.models.Meal;
+import com.example.healthybites.utils.FirebaseUtils;
 import com.google.firebase.firestore.*;
 
 import java.util.ArrayList;

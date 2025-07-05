@@ -1,4 +1,4 @@
-package com.example.healthybytes.models;
+package com.example.healthybites.models;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.healthybytes;
+package com.example.healthybites;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.healthybytes.adapters.OnboardingAdapter;
+import com.example.healthybites.adapters.OnboardingAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
