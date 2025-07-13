@@ -36,6 +36,8 @@
             android:scaleType="centerCrop"
             android:background="@drawable/circle_background"
             android:contentDescription="Profile"
+            android:clickable="true"
+            android:focusable="true"
             app:tint="@android:color/white"/>
     </RelativeLayout>
 

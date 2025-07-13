@@ -43,6 +43,7 @@
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:hint="Ex: Jhon"
+                android:inputType="text"
                 android:drawableStart="@drawable/ic_user"
                 android:background="@drawable/rounded_edittext"
                 android:padding="12dp"
@@ -67,6 +68,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:hint="91 Enter your phone number"
+            android:inputType="phone"
             android:drawableStart="@drawable/ic_phoneno"
             android:background="@drawable/rounded_edittext"
             android:padding="12dp" />
@@ -78,6 +80,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:hint="Enter Email"
+            android:inputType="textEmailAddress"
             android:drawableStart="@drawable/ic_email"
             android:background="@drawable/rounded_edittext"
             android:padding="12dp" />

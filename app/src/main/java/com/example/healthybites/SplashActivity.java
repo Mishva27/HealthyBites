@@ -23,18 +23,18 @@ public class SplashActivity extends AppCompatActivity {
             boolean isFirstTime = prefs.getBoolean("first_time", true);
 
             if (isFirstTime) {
-                // ✅ Save first-time complete
+                //  Save first-time complete
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("first_time", false);
                 editor.apply();
 
-                // ✅ Show onboarding screen
+                // Show onboarding screen
                 startActivity(new Intent(SplashActivity.this, OnboardingActivity.class));
             } else if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                // ✅ Already signed in
+                // Already signed in
                 startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             } else {
-                // ✅ Not first time and not signed in
+                // Not first time and not signed in
                 startActivity(new Intent(SplashActivity.this, OnboardingActivity.class));
             }
 

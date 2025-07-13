@@ -79,6 +79,17 @@
 
         </LinearLayout>
 
+
+        <!--  Button -->
+        <Button
+            android:id="@+id/btnSetWaterGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Water Goal"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/secondary"
+            android:layout_marginTop="10dp"/>
+
         <!-- Goal and Percentage -->
         <LinearLayout
             android:layout_width="wrap_content"

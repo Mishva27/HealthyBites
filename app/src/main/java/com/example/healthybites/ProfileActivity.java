@@ -1,36 +1,25 @@
 package com.example.healthybites;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private EditText etFullName, etAge, etHeight, etWeight;
-    private TextView tvEmail;
-    private Spinner spinnerGoal;
-    private RadioGroup radioGroupGender;
-    private RadioButton rbMale, rbFemale;
-    private Button btnSave;
-
+    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private FirebaseUser user;
+
+    private ImageView backBtn, imgMyDetail, arrowMyDetail;
+    private TextView nameText, emailText, txtMyDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,90 +27,66 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         // Initialize Firebase
+        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
 
         // Bind Views
-        etFullName = findViewById(R.id.etFullName);
-        etAge = findViewById(R.id.etAge);
-        etHeight = findViewById(R.id.etHeight);
-        etWeight = findViewById(R.id.etWeight);
-        tvEmail = findViewById(R.id.tvEmail);
-        spinnerGoal = findViewById(R.id.spinnerGoal);
-        radioGroupGender = findViewById(R.id.radioGroupGender);
-        rbMale = findViewById(R.id.rbMale);
-        rbFemale = findViewById(R.id.rbFemale);
-        btnSave = findViewById(R.id.btnSave);
+        backBtn = findViewById(R.id.backBtn);
+        nameText = findViewById(R.id.nameText);
+        emailText = findViewById(R.id.emailText);
+        imgMyDetail = findViewById(R.id.imgmyDetail);
+        txtMyDetail = findViewById(R.id.txtmyDetail);
+        arrowMyDetail = findViewById(R.id.arrowmyDetail);
 
-        // Set Spinner Data
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.user_goals, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerGoal.setAdapter(adapter);
+        ImageView imgNotification = findViewById(R.id.imgNotification);
+        TextView txtNotification = findViewById(R.id.txtNotification);
+        ImageView arrowNotification = findViewById(R.id.arrowNotification);
 
-        // Load User Data
+        View.OnClickListener notificationClickListener = v -> {
+            Intent intent = new Intent(ProfileActivity.this, NotificationActivity.class);
+            startActivity(intent);
+        };
+
+        imgNotification.setOnClickListener(notificationClickListener);
+        txtNotification.setOnClickListener(notificationClickListener);
+        arrowNotification.setOnClickListener(notificationClickListener);
+
+        // 🟣 Load user data from Firebase
         loadUserData();
 
-        // Save Changes
-        btnSave.setOnClickListener(v -> saveUserData());
+        // 🔙 Back Button Click → Finish
+        backBtn.setOnClickListener(v -> finish());
+
+        // 🟢 Open MyDetailsActivity on any click
+        View.OnClickListener openMyDetails = v -> {
+            startActivity(new Intent(ProfileActivity.this, MyDetailsActivity.class));
+        };
+
+        imgMyDetail.setOnClickListener(openMyDetails);
+        txtMyDetail.setOnClickListener(openMyDetails);
+        arrowMyDetail.setOnClickListener(openMyDetails);
     }
 
     private void loadUserData() {
-        if (user != null) {
-            db.collection("users").document(user.getUid()).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            etFullName.setText(documentSnapshot.getString("fullName"));
-                            tvEmail.setText(documentSnapshot.getString("email"));
-                            etAge.setText(documentSnapshot.getString("age"));
-                            etHeight.setText(documentSnapshot.getString("height"));
-                            etWeight.setText(documentSnapshot.getString("weight"));
-
-                            // Gender
-                            String gender = documentSnapshot.getString("gender");
-                            if ("Male".equals(gender)) rbMale.setChecked(true);
-                            else if ("Female".equals(gender)) rbFemale.setChecked(true);
-
-                            // Goal
-                            String goal = documentSnapshot.getString("goal");
-                            if (goal != null) {
-                                ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinnerGoal.getAdapter();
-                                int position = adapter.getPosition(goal);
-                                spinnerGoal.setSelection(position);
-                            }
-                        }
-                    })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(ProfileActivity.this, "Failed to load data: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-        }
-    }
-
-    private void saveUserData() {
-        String name = etFullName.getText().toString();
-        String age = etAge.getText().toString();
-        String height = etHeight.getText().toString();
-        String weight = etWeight.getText().toString();
-        String gender = rbMale.isChecked() ? "Male" : "Female";
-        String goal = spinnerGoal.getSelectedItem().toString();
-
-        if (name.isEmpty() || age.isEmpty() || height.isEmpty() || weight.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+        if (mAuth.getCurrentUser() == null) {
+            nameText.setText("Guest User");
+            emailText.setText("guest@example.com");
             return;
         }
 
-        Map<String, Object> updatedData = new HashMap<>();
-        updatedData.put("fullName", name);
-        updatedData.put("age", age);
-        updatedData.put("height", height);
-        updatedData.put("weight", weight);
-        updatedData.put("gender", gender);
-        updatedData.put("goal", goal);
+        String uid = mAuth.getCurrentUser().getUid();
+        DocumentReference userRef = db.collection("users").document(uid);
 
-        db.collection("users").document(user.getUid())
-                .update(updatedData)
-                .addOnSuccessListener(aVoid ->
-                        Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        userRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                String name = documentSnapshot.getString("fullName");
+                String email = mAuth.getCurrentUser().getEmail();
+
+                nameText.setText(name != null ? name : "Healthy Bites User");
+                emailText.setText(email != null ? email : "No email");
+            } else {
+                Log.e("ProfileActivity", "No such user document.");
+            }
+        }).addOnFailureListener(e -> Log.e("ProfileActivity", "Failed to fetch user data", e));
     }
 }

@@ -34,41 +34,51 @@ android {
 }
 
 dependencies {
-    // Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    dependencies {
+        // Firebase BoM
+        implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
 
-    // Firebase Authentication
-    implementation("com.google.firebase:firebase-auth")
+        // Firebase Authentication
+        implementation("com.google.firebase:firebase-auth")
 
-    // Firebase Firestore
-    implementation("com.google.firebase:firebase-firestore")
+        // Firebase Firestore
+        implementation("com.google.firebase:firebase-firestore")
 
-    // Firebase Analytics
-    implementation("com.google.firebase:firebase-analytics")
+        // Firebase Analytics
+        implementation("com.google.firebase:firebase-analytics")
 
-    // Google Sign-In (required for Firebase Google Auth)
-    implementation("com.google.android.gms:play-services-auth:21.0.0")
+        // Google Sign-In (required for Firebase Google Auth)
+        implementation("com.google.android.gms:play-services-auth:21.0.0")
 
-    // Lottie for animations
-    implementation("com.airbnb.android:lottie:5.2.0")
+        // Google Fit API
+        implementation("com.google.android.gms:play-services-fitness:21.0.1")
 
-    // Glide for images
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+        // Lottie for animations
+        implementation("com.airbnb.android:lottie:5.2.0")
 
-    // Material & CardView
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.cardview:cardview:1.0.0")
+        // Glide for images
+        implementation("com.github.bumptech.glide:glide:4.16.0")
+        annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
-    // Test libs
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+        // Material & CardView
+        implementation("com.google.android.material:material:1.11.0")
+        implementation("androidx.cardview:cardview:1.0.0")
 
-    //viewpager2
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+        // Test libs
+        testImplementation(libs.junit)
+        androidTestImplementation(libs.ext.junit)
+        androidTestImplementation(libs.espresso.core)
 
-    //new material design
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+        // viewpager2
+        implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+        // new material design
+        implementation("com.google.android.material:material:1.11.0")
+        implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+        implementation("androidx.work:work-runtime:2.9.0")
+
+        implementation("de.hdodenhof:circleimageview:3.1.0")
+    }
+
 }

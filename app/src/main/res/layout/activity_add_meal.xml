@@ -72,11 +72,15 @@
             android:inputType="number"
             android:layout_marginBottom="12dp" />
 
+
+        <!-- Add Food item Button -->
         <Button
             android:id="@+id/addFoodBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Food Item"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/primary"
             android:layout_marginBottom="16dp" />
 
         <!-- RecyclerView for food item list -->
@@ -100,6 +104,9 @@
             android:id="@+id/saveMealBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Meal" />
+            android:text="Save Meal"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="16dp" />
     </LinearLayout>
 </ScrollView>

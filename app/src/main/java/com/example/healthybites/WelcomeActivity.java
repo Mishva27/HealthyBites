@@ -37,7 +37,9 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
         guestText.setOnClickListener(view -> {
-            startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+            Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
+            intent.putExtra("isGuest", true);
+            startActivity(intent);
             finish();
         });
     }
