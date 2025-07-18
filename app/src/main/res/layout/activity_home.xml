@@ -60,38 +60,6 @@
                 android:textColor="@color/primary"
                 android:layout_margin="16dp"
                 android:layout_gravity="center_horizontal"/>
-
-
-            <!--  Water Reminder Button -->
-            <Button
-                android:id="@+id/btnStartWaterReminder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Start Water Reminder"
-                android:backgroundTint="@color/primary"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/tvReminderStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reminder Status: OFF"
-                android:textColor="@color/secondary"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp"/>
-
-
-            <!-- Logout Button -->
-            <Button
-                android:id="@+id/logoutButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Logout"
-                android:textColor="@android:color/white"
-                android:backgroundTint="@color/primary"
-                android:layout_marginBottom="16dp" />
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="Select Goal"
                 android:textStyle="bold"
-                android:textSize="17dp"
+                android:textSize="18dp"
                 android:layout_marginTop="12dp"
                 android:textColor="@color/primary"
                 android:background="@drawable/rounded_edittext"/>
@@ -53,8 +53,9 @@
             <Spinner
                 android:id="@+id/goalSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_edittext"/>
+                android:layout_height="50dp"
+                android:background="@drawable/rounded_edittext"
+                android:layout_marginTop="10dp"/>
 
             <!-- Age -->
             <EditText
@@ -73,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:text="Gender"
                 android:textStyle="bold"
+                android:textSize="18dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/rounded_edittext"/>
 
@@ -81,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_edittext">
 
                 <RadioButton
@@ -103,13 +106,15 @@
                 android:layout_height="wrap_content"
                 android:text="Select Height (in ft)"
                 android:textStyle="bold"
+                android:textSize="18dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/rounded_edittext"/>
 
             <Spinner
                 android:id="@+id/heightSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_edittext"/>
 
             <!-- Weight -->

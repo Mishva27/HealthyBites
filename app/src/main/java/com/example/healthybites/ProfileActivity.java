@@ -38,26 +38,49 @@ public class ProfileActivity extends AppCompatActivity {
         txtMyDetail = findViewById(R.id.txtmyDetail);
         arrowMyDetail = findViewById(R.id.arrowmyDetail);
 
-        ImageView imgNotification = findViewById(R.id.imgNotification);
-        TextView txtNotification = findViewById(R.id.txtNotification);
-        ImageView arrowNotification = findViewById(R.id.arrowNotification);
+        ImageView imgReminder = findViewById(R.id.imgRemindeder);
+        TextView txtReminder = findViewById(R.id.txtRemindeder);
+        ImageView arrowReminder = findViewById(R.id.arrowRemindeder);
+
+        ImageView imgLogout = findViewById(R.id.imgLogout);
+        TextView txtLogout = findViewById(R.id.txtLogout);
+        ImageView arrowLogout = findViewById(R.id.arrowLogout);
+
+        View.OnClickListener logoutClickListener = view -> {
+            new androidx.appcompat.app.AlertDialog.Builder(ProfileActivity.this)
+                    .setTitle("Logout")
+                    .setMessage("Are you sure you want to logout?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(ProfileActivity.this, SignInActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        };
+
+        imgLogout.setOnClickListener(logoutClickListener);
+        txtLogout.setOnClickListener(logoutClickListener);
+        arrowLogout.setOnClickListener(logoutClickListener);
 
         View.OnClickListener notificationClickListener = v -> {
-            Intent intent = new Intent(ProfileActivity.this, NotificationActivity.class);
+            Intent intent = new Intent(ProfileActivity.this, ReminderActivity.class);
             startActivity(intent);
         };
 
-        imgNotification.setOnClickListener(notificationClickListener);
-        txtNotification.setOnClickListener(notificationClickListener);
-        arrowNotification.setOnClickListener(notificationClickListener);
+        imgReminder.setOnClickListener(notificationClickListener);
+        txtReminder.setOnClickListener(notificationClickListener);
+        arrowReminder.setOnClickListener(notificationClickListener);
 
-        // 🟣 Load user data from Firebase
+        // Load user data from Firebase
         loadUserData();
 
         // 🔙 Back Button Click → Finish
         backBtn.setOnClickListener(v -> finish());
 
-        // 🟢 Open MyDetailsActivity on any click
+        // Open MyDetailsActivity on any click
         View.OnClickListener openMyDetails = v -> {
             startActivity(new Intent(ProfileActivity.this, MyDetailsActivity.class));
         };

@@ -1,6 +1,9 @@
 package com.example.healthybites;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -145,15 +148,44 @@ public class SignInActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        // Profile not filled yet → go to UserGoalSetupActivity
+                        // Save profile status as incomplete
+                        SharedPreferences.Editor editor = getSharedPreferences("UserProfile", MODE_PRIVATE).edit();
+                        editor.putBoolean("profileCompleted", false);
+                        editor.apply();
+
+                        // Schedule reminder
+                        scheduleProfileReminderIfNeeded();
+
+                        // Navigate to profile setup
                         Intent intent = new Intent(SignInActivity.this, UserGoalSetupActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
                     }
+
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(SignInActivity.this, "Error checking profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
+
+    private void scheduleProfileReminderIfNeeded() {
+        SharedPreferences prefs = getSharedPreferences("UserProfile", MODE_PRIVATE);
+        boolean isProfileCompleted = prefs.getBoolean("profileCompleted", false);
+
+        if (!isProfileCompleted) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent intent = new Intent(this, ProfileReminderReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    this, 200, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+
+            long interval = 60 * 1000; // 1 minute
+            long triggerTime = System.currentTimeMillis() + interval;
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime, interval, pendingIntent);
+        }
+    }
+
 }

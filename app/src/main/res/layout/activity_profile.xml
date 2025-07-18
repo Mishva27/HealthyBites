@@ -130,7 +130,7 @@
                     android:paddingVertical="12dp">
 
                     <ImageView
-                        android:id="@+id/imgNotification"
+                        android:id="@+id/imgRemindeder"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:padding="8dp"
@@ -139,18 +139,18 @@
                         app:tint="@color/secondary" />
 
                     <TextView
-                        android:id="@+id/txtNotification"
+                        android:id="@+id/txtRemindeder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="10dp"
-                        android:text="Notification"
+                        android:text="Set Reminder"
                         android:textColor="@color/primary"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:id="@+id/arrowNotification"
+                        android:id="@+id/arrowRemindeder"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/arrow"
