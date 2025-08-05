@@ -2,7 +2,10 @@ package com.example.healthybites;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -10,23 +13,26 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class UserGoalSetupActivity extends AppCompatActivity {
 
-    private EditText fullName, age, weight;
-    private Spinner heightSpinner, goalSpinner;
-    private RadioGroup genderGroup;
-    private RadioButton selectedGender;
-    private Button saveProfileBtn;
+    private EditText fullNameEditText, ageEditText, weightEditText;
+    private RadioGroup genderRadioGroup;
+    private Spinner goalSpinner, heightSpinner;
+    private Button saveButton;
 
-    private FirebaseAuth auth;
+    private String selectedGoal, selectedHeight;
+
+    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
     @Override
@@ -34,88 +40,95 @@ public class UserGoalSetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_goalsetup);
 
-        auth = FirebaseAuth.getInstance();
+        // Initialize Firebase
+        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // UI references
-        fullName = findViewById(R.id.editTextFullName);
-        age = findViewById(R.id.editTextAge);
-        weight = findViewById(R.id.editTextWeight);
-        heightSpinner = findViewById(R.id.heightSpinner);
+        // UI Components
+        fullNameEditText = findViewById(R.id.editTextFullName);
+        ageEditText = findViewById(R.id.editTextAge);
+        weightEditText = findViewById(R.id.editTextWeight);
+        genderRadioGroup = findViewById(R.id.genderGroup);
         goalSpinner = findViewById(R.id.goalSpinner);
-        genderGroup = findViewById(R.id.genderGroup);
-        saveProfileBtn = findViewById(R.id.buttonSave);
+        heightSpinner = findViewById(R.id.heightSpinner);
+        saveButton = findViewById(R.id.buttonSave);
 
-        saveProfileBtn.setOnClickListener(new View.OnClickListener() {
+        // Goal Spinner setup
+        ArrayAdapter<CharSequence> goalAdapter = ArrayAdapter.createFromResource(this,
+                R.array.user_goals, android.R.layout.simple_spinner_item);
+        goalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        goalSpinner.setAdapter(goalAdapter);
+        goalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                saveUserProfile();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedGoal = parent.getItemAtPosition(position).toString();
             }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+        // Height Spinner setup
+        ArrayAdapter<CharSequence> heightAdapter = ArrayAdapter.createFromResource(this,
+                R.array.user_heights, android.R.layout.simple_spinner_item);
+        heightAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        heightSpinner.setAdapter(heightAdapter);
+        heightSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedHeight = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        // Save Button Click Listener
+        saveButton.setOnClickListener(v -> saveUserData());
     }
 
-    private void saveUserProfile() {
-        String nameStr = fullName.getText().toString().trim();
-        String ageStr = age.getText().toString().trim();
-        String weightStr = weight.getText().toString().trim();
-        String heightStr = heightSpinner.getSelectedItem().toString();
-        String goalStr = goalSpinner.getSelectedItem().toString();
+    private void saveUserData() {
+        String fullName = fullNameEditText.getText().toString().trim();
+        String age = ageEditText.getText().toString().trim();
+        String weight = weightEditText.getText().toString().trim();
 
-        if (genderGroup.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(this, "Please select your gender", Toast.LENGTH_SHORT).show();
+        // Gender
+        int selectedGenderId = genderRadioGroup.getCheckedRadioButtonId();
+        RadioButton selectedGenderRadio = findViewById(selectedGenderId);
+        String gender = selectedGenderRadio != null ? selectedGenderRadio.getText().toString() : "";
+
+        // Validation
+        if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(age) || TextUtils.isEmpty(weight)
+                || TextUtils.isEmpty(gender) || TextUtils.isEmpty(selectedGoal) || TextUtils.isEmpty(selectedHeight)) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        selectedGender = findViewById(genderGroup.getCheckedRadioButtonId());
-        String genderStr = selectedGender.getText().toString();
-
-        // Check for empty fields
-        if (nameStr.isEmpty() || ageStr.isEmpty() || weightStr.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Validate numeric fields
-        int ageInt;
-        float weightFloat;
-        try {
-            ageInt = Integer.parseInt(ageStr);
-            weightFloat = Float.parseFloat(weightStr);
+        // Prepare user data
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("fullName", fullName);
+        userMap.put("email", currentUser.getEmail());
+        userMap.put("age", age);
+        userMap.put("weight", weight);
+        userMap.put("gender", gender);
+        userMap.put("goal", selectedGoal);
+        userMap.put("height", selectedHeight);
 
-            if (ageInt <= 0 || ageInt > 120 || weightFloat <= 0) {
-                Toast.makeText(this, "Enter valid age and weight", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Age and weight must be numeric", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Get authenticated email from FirebaseAuth
-        String emailStr = auth.getCurrentUser().getEmail();
-        String uid = auth.getCurrentUser().getUid();
-
-        HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("fullName", nameStr);
-        userMap.put("email", emailStr);
-        userMap.put("age", ageInt);
-        userMap.put("weight", weightFloat);
-        userMap.put("height", heightStr);
-        userMap.put("goal", goalStr);
-        userMap.put("gender", genderStr);
-        userMap.put("createdAt", FieldValue.serverTimestamp());
-
-        db.collection("users").document(uid)
+        // Save to Firestore
+        db.collection("users")
+                .document(currentUser.getUid())
                 .set(userMap)
                 .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(UserGoalSetupActivity.this, HomeActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    Toast.makeText(this, "Profile Saved!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(UserGoalSetupActivity.this, HomeActivity.class));
+                    finish();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Failed to save profile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
     }
 }

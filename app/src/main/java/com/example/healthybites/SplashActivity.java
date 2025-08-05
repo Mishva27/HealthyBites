@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DELAY = 2000;
+    private static final int SPLASH_DELAY = 4000;
 
 
     @Override
@@ -29,12 +30,15 @@ public class SplashActivity extends AppCompatActivity {
                 editor.apply();
 
                 // Show onboarding screen
+                Log.d("SplashActivity", "First time user → Onboarding");
                 startActivity(new Intent(SplashActivity.this, OnboardingActivity.class));
             } else if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 // Already signed in
+                Log.d("SplashActivity", "User already signed in → Home");
                 startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             } else {
                 // Not first time and not signed in
+                Log.d("SplashActivity", "Returning user but not signed in → Onboarding");
                 startActivity(new Intent(SplashActivity.this, OnboardingActivity.class));
             }
 

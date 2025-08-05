@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "954301971461",
+    "firebase_url": "https://healthybites-174bb-default-rtdb.firebaseio.com",
     "project_id": "healthybites-174bb",
     "storage_bucket": "healthybites-174bb.firebasestorage.app"
   },
@@ -18,43 +19,6 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.healthybites",
-            "certificate_hash": "ef52da9222794e7d891c58acfc6c926ac3f1647a"
-          }
-        },
-        {
-          "client_id": "954301971461-b0lr6mjo9stjc8128k05dsj5170h0mbn.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyApW8BfMXd7gVNxbHAQBVFP37UMjau2Y5o"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "954301971461-b0lr6mjo9stjc8128k05dsj5170h0mbn.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:954301971461:android:d8cecf9de29db9433fb06c",
-        "android_client_info": {
-          "package_name": "com.example.healthybytes"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "954301971461-48ls9a31mo39pohgvd303rviapfse6mp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.healthybytes",
             "certificate_hash": "ef52da9222794e7d891c58acfc6c926ac3f1647a"
           }
         },

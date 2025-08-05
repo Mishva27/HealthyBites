@@ -16,10 +16,10 @@
         android:textColor="@color/secondary"
         android:textStyle="bold"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Onboarding ViewPager -->
     <androidx.viewpager2.widget.ViewPager2
@@ -37,11 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/onboardingViewPager"
-        app:layout_constraintBottom_toTopOf="@id/buttonGetStarted"
+        app:layout_constraintBottom_toTopOf="@id/imageMuLogo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Get Started Button -->
     <Button
@@ -52,9 +52,20 @@
         android:textColor="@android:color/white"
         android:backgroundTint="@color/primary"
         android:visibility="gone"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp"/>
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- MU Logo -->
+    <ImageView
+        android:id="@+id/imageMuLogo"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:contentDescription="MU Logo"
+        android:src="@drawable/mu_logo"
+        app:layout_constraintBottom_toTopOf="@id/buttonGetStarted"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

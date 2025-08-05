@@ -10,6 +10,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.HashMap;
+import java.util.Map;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +25,9 @@ public class SignUpActivity extends AppCompatActivity {
     CheckBox checkbox;
     Button signUpButton;
     TextView createAccountLink;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+
 
     boolean isPasswordVisible = false;
     boolean isConfirmPasswordVisible = false;
@@ -38,6 +47,9 @@ public class SignUpActivity extends AppCompatActivity {
         checkbox = findViewById(R.id.checkbox);
         signUpButton = findViewById(R.id.signUpButton);
         createAccountLink = findViewById(R.id.createAccountLink);
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
 
         // ✅ Password Show/Hide Toggle
         password.setOnTouchListener((v, event) -> {
@@ -80,6 +92,8 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(v -> {
             String first = firstName.getText().toString().trim();
             String last = lastName.getText().toString().trim();
+            String phoneNo = phone.getText().toString().trim();
+            String userEmail = email.getText().toString().trim();
             String pass = password.getText().toString();
             String confirmPass = confirmPassword.getText().toString();
 
@@ -103,6 +117,12 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
+            if (userEmail.isEmpty()) {
+                email.setError("Email is required");
+                email.requestFocus();
+                return;
+            }
+
             if (pass.isEmpty()) {
                 password.setError("Password is required");
                 password.requestFocus();
@@ -120,12 +140,56 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
-            // ✅ All validations passed → Proceed with signup
-            Toast.makeText(this, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
-            // ✅ Redirect to HomeActivity
-            Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            // ✅ Firebase create user
+            mAuth.createUserWithEmailAndPassword(userEmail, pass)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                // ✅ Save user details to Firestore
+                                Map<String, Object> userMap = new HashMap<>();
+                                userMap.put("fullName", first + " " + last);
+                                userMap.put("email", user.getEmail());
+                                userMap.put("phone", phoneNo);
+                                // Add empty/default values so MyDetailsActivity can update them later
+                                userMap.put("age", "");
+                                userMap.put("height", "");
+                                userMap.put("weight", "");
+                                userMap.put("gender", "");
+                                userMap.put("goal", "");
+
+                                db.collection("users").document(user.getUid())
+                                        .set(userMap)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(SignUpActivity.this, "Sign Up Successful!", Toast.LENGTH_SHORT).show();
+                                            // Redirect to Sign In
+                                            Intent intent = new Intent(SignUpActivity.this, UserGoalSetupActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                        })
+                                        .addOnFailureListener(e ->
+                                                Toast.makeText(SignUpActivity.this, "Failed to save user data: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                                        );
+                            }
+                        } else {
+                            if (task.getException() != null && task.getException().getMessage() != null &&
+                                    task.getException().getMessage().contains("The email address is already in use")) {
+
+                                Toast.makeText(SignUpActivity.this, "Email already registered. Redirecting to Sign In...", Toast.LENGTH_SHORT).show();
+
+                                // Optional: delay slightly before redirecting
+                                new android.os.Handler().postDelayed(() -> {
+                                    Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                                    intent.putExtra("email", userEmail); // pass email to prefill
+                                    startActivity(intent);
+                                    finish();
+                                }, 1500);
+
+                            } else {
+                                Toast.makeText(SignUpActivity.this, "Sign Up Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         });
 
         // ✅ Already have account link (Optional)

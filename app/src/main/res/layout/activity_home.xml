@@ -33,14 +33,6 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
-            <!-- Weight Card -->
-            <include
-                layout="@layout/layout_weight_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="10dp" />
-
             <!-- Water Card -->
             <include
                 layout="@layout/activity_water_tracker"
@@ -55,7 +47,37 @@
                 android:id="@+id/tvStepCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Steps: --"
+                android:text="Steps: "
+                android:textSize="16sp"
+                android:textColor="@color/primary"
+                android:layout_margin="16dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/tvCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories: "
+                android:textSize="16sp"
+                android:textColor="@color/primary"
+                android:layout_margin="16dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/tvDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance: "
+                android:textSize="16sp"
+                android:textColor="@color/primary"
+                android:layout_margin="16dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/tvMoveMinutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minutes: "
                 android:textSize="16sp"
                 android:textColor="@color/primary"
                 android:layout_margin="16dp"
