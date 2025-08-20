@@ -1,10 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme -->
     <style name="Base.Theme.HealthyBytes" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <!-- Material 3 override for RadioButton active state -->
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorOnSecondary">@android:color/white</item>
     </style>
 
     <style name="Theme.HealthyBytes" parent="Base.Theme.HealthyBytes" />

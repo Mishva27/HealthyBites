@@ -10,6 +10,10 @@
         <item>Maintenance</item>
     </string-array>
 
+        <!-- to toggle the open close button of the navigation drawer -->
+        <string name="nav_open">Open</string>
+        <string name="nav_close">Close</string>
+
     <string-array name="user_heights">
         <item>4\'0"</item>
         <item>4\'1"</item>

@@ -1,0 +1,58 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Meal Name -->
+        <TextView
+            android:id="@+id/tvMealName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Meal Name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary" />
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/tvMealDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="A healthy and delicious option to keep you energized."
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <!-- Calories -->
+        <TextView
+            android:id="@+id/tvMealCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Calories: 200 kcal"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/secondary" />
+
+        <!-- Ingredients -->
+        <TextView
+            android:id="@+id/tvMealIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Ingredients: Rice, Beans"
+            android:textSize="14sp"
+            android:textColor="@color/primary" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

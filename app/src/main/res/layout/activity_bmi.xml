@@ -45,20 +45,5 @@
             android:textColor="@android:color/white"
             android:background="@drawable/bg_bmi_badge" />
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Weight Trend"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"
-            android:textColor="@color/primary" />
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/weightTrendChart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="8dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -1,33 +1,77 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:padding="24dp"
-    android:gravity="center">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
+    <!-- AppBar Header -->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="@color/primary"
+        android:gravity="center_vertical">
 
-    <Button
-        android:id="@+id/btnAddMeal"
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/nutritionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/backBtn"
+            android:layout_marginStart="14dp"
+            android:layout_centerVertical="true"
+            android:text="Nutrition"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- Button Section -->
+    <LinearLayout
+        android:id="@+id/main_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add New Meal"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/primary"
-        android:layout_marginBottom="16dp" />
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center">
 
-    <Button
-        android:id="@+id/btnMealHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View Meal History"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/primary"
-        android:layout_marginBottom="16dp" />
+        <Button
+            android:id="@+id/btnAddMeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add New Meal"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnNutritionInsights"
+        <Button
+            android:id="@+id/btnNutritionInsights"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nutrition Insights"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="16dp" />
+
+    </LinearLayout>
+
+    <!-- Fragment Container -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nutrition Insights"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/primary"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 </LinearLayout>

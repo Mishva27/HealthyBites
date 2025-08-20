@@ -3,11 +3,12 @@ package com.example.healthybites;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.healthybites.models.MealModel;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.healthybites.adapters.MealAdapter;
+import com.example.healthybites.adapters.MealSuggestionAdapter;
 import com.example.healthybites.models.Meal;
 import com.example.healthybites.utils.FirebaseUtils;
 import com.google.firebase.firestore.*;
@@ -18,8 +19,8 @@ import java.util.List;
 public class MealHistoryActivity extends AppCompatActivity {
 
     RecyclerView mealRecyclerView;
-    MealAdapter adapter;
-    List<Meal> mealList;
+    MealSuggestionAdapter adapter;
+    List<MealModel> mealList;
     FirebaseFirestore db;
 
     @Override
@@ -29,7 +30,7 @@ public class MealHistoryActivity extends AppCompatActivity {
 
         mealRecyclerView = findViewById(R.id.mealRecyclerView);
         mealList = new ArrayList<>();
-        adapter = new MealAdapter(mealList);
+        adapter = new MealSuggestionAdapter(mealList);
         mealRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mealRecyclerView.setAdapter(adapter);
 
@@ -48,7 +49,7 @@ public class MealHistoryActivity extends AppCompatActivity {
                         if (value != null) {
                             mealList.clear();
                             for (DocumentSnapshot doc : value) {
-                                Meal meal = doc.toObject(Meal.class);
+                                MealModel meal = doc.toObject(MealModel.class);
                                 mealList.add(meal);
                             }
                             adapter.notifyDataSetChanged();

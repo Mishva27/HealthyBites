@@ -94,10 +94,10 @@
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="32dp"
         android:src="@drawable/ic_input_add"
-        app:tint="@color/white"
         app:backgroundTint="@color/secondary"
+        app:fabCustomSize="50dp"
         app:maxImageSize="40dp"
-        app:fabCustomSize="50dp" />
+        app:tint="@color/white" />
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

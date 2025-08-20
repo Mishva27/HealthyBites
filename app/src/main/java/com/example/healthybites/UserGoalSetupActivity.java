@@ -85,6 +85,22 @@ public class UserGoalSetupActivity extends AppCompatActivity {
         saveButton.setOnClickListener(v -> saveUserData());
     }
 
+    /**
+     * Map human-readable spinner values to Firebase keys
+     */
+    private String mapGoalToKey(String selectedGoal) {
+        switch (selectedGoal.toLowerCase()) {
+            case "gain weight":
+                return "gain_weight";
+            case "lose weight":
+                return "lose_weight";
+            case "maintain weight":
+                return "maintain_weight";
+            default:
+                return "gain_weight"; // fallback
+        }
+    }
+
     private void saveUserData() {
         String fullName = fullNameEditText.getText().toString().trim();
         String age = ageEditText.getText().toString().trim();
@@ -108,6 +124,8 @@ public class UserGoalSetupActivity extends AppCompatActivity {
             return;
         }
 
+        String goalKey = mapGoalToKey(selectedGoal);
+
         // Prepare user data
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("fullName", fullName);
@@ -124,7 +142,12 @@ public class UserGoalSetupActivity extends AppCompatActivity {
                 .set(userMap)
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Profile Saved!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(UserGoalSetupActivity.this, HomeActivity.class));
+
+                    // ✅ Pass the Firebase key to MealSuggestion
+                    Intent intent = new Intent(UserGoalSetupActivity.this, MealSuggestion.class);
+                    intent.putExtra("goal", goalKey);
+                    startActivity(intent);
+
                     finish();
                 })
                 .addOnFailureListener(e -> {

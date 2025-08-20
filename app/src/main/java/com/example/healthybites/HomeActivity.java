@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,30 +21,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
+
 import android.Manifest;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
 import com.google.android.gms.fitness.data.DataSet;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.fitness.data.Bucket;
 import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.Value;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -63,7 +52,6 @@ public class HomeActivity extends AppCompatActivity {
     Button btnSetWaterGoal;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    LineChart weightTrendChart;
     ImageButton btnIncreaseWater, btnDecreaseWater;
     final float[] waterAmount = {0.0f};
     private FitnessOptions fitnessOptions;
@@ -80,7 +68,6 @@ public class HomeActivity extends AppCompatActivity {
         toolbarUserName = findViewById(R.id.toolbarUserName);
         toolbarProfileIcon = findViewById(R.id.toolbarProfileIcon);
         tvBMIValue = findViewById(R.id.tvBMIValue);
-        weightTrendChart = findViewById(R.id.weightTrendChart);
         tvBMIBadge = findViewById(R.id.tvBMIBadge);
         btnIncreaseWater = findViewById(R.id.btnIncreaseWater);
         btnDecreaseWater = findViewById(R.id.btnDecreaseWater);
@@ -94,7 +81,6 @@ public class HomeActivity extends AppCompatActivity {
         tvDistance = findViewById(R.id.tvDistance);
         tvMoveMinutes = findViewById(R.id.tvMoveMinutes);
 
-
         View appBar = findViewById(R.id.app_bar);
         toolbarProfileIcon = appBar.findViewById(R.id.toolbarProfileIcon);
 
@@ -104,27 +90,49 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // Bottom Navigation
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
 
-        requestActivityRecognitionPermission();
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
 
+            if (itemId == R.id.nav_home) {
+                return true; // Already on Home
+            } else if (itemId == R.id.nav_coach) {
+                Intent intent = new Intent(HomeActivity.this, CoachActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            } else if (itemId == R.id.mealPlanner) {
+                Intent intent = new Intent(HomeActivity.this, MealSuggestion.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            } else if (itemId == R.id.nav_help) {
+                Intent intent = new Intent(HomeActivity.this, HelpActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+
+            return false;
+        });
+
+        // Setup Google Fit
+        fitnessOptions = FitnessOptions.builder()
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_DISTANCE_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_MOVE_MINUTES, FitnessOptions.ACCESS_READ)
+                .build();
 
         if (!isGuest) {
             setupProfileIconClick();
             setUserGreeting();
             fetchUserDetailsAndCalculateBMI();
-
-            // Setup Google Fit
-            fitnessOptions = FitnessOptions.builder()
-                    .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                    .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                    .addDataType(DataType.TYPE_DISTANCE_DELTA, FitnessOptions.ACCESS_READ)
-                    .addDataType(DataType.AGGREGATE_DISTANCE_DELTA, FitnessOptions.ACCESS_READ)
-                    .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
-                    .addDataType(DataType.AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
-                    .addDataType(DataType.TYPE_MOVE_MINUTES, FitnessOptions.ACCESS_READ)
-                    .addDataType(DataType.AGGREGATE_MOVE_MINUTES, FitnessOptions.ACCESS_READ)
-                    .build();
-
 
             if (fitnessOptions != null) {
                 GoogleSignInAccount account = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
@@ -140,6 +148,8 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(this, "Guest Mode Activated", Toast.LENGTH_SHORT).show();
             toolbarUserName.setText("Hello, Guest!");
         }
+
+        requestActivityRecognitionPermission();
 
         setupWaterGoalFeature();
 
@@ -165,8 +175,6 @@ public class HomeActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MainActivity.class)));
-
-
     }
 
     private static final int PERMISSION_REQUEST_ACTIVITY_RECOGNITION = 1001;
@@ -182,7 +190,6 @@ public class HomeActivity extends AppCompatActivity {
                 accessGoogleFitData(); // Already granted
             }
         } else {
-            // For Android 9 (Pie) and below, permission not needed
             accessGoogleFitData();
         }
     }
@@ -192,14 +199,12 @@ public class HomeActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_ACTIVITY_RECOGNITION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted – now access step data
-                accessGoogleFitData(); // replace with your actual method
+                accessGoogleFitData();
             } else {
                 Toast.makeText(this, "Permission required for step tracking", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -324,8 +329,6 @@ public class HomeActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() == null) {
             tvBMIValue.setText("BMI: N/A");
             tvBMIBadge.setText("Guest");
-            weightTrendChart.setNoDataText("Not available for Guest Mode.");
-            weightTrendChart.invalidate();
             return;
         }
 
@@ -339,8 +342,6 @@ public class HomeActivity extends AppCompatActivity {
                 calculateAndDisplayBMI(heightStr, weightStr);
             }
         });
-
-        loadWeightTrendChart();
     }
 
     private void calculateAndDisplayBMI(String heightStr, String weightStr) {
@@ -352,7 +353,6 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         try {
-            // Handle height format like "5'4" or "5 ft 4 in"
             float heightInFeet = 0f;
 
             if (heightStr.contains("'")) {
@@ -366,7 +366,6 @@ public class HomeActivity extends AppCompatActivity {
                 int inches = (parts.length > 1) ? Integer.parseInt(parts[1].replaceAll("[^\\d]", "").trim()) : 0;
                 heightInFeet = feet + (inches / 12.0f);
             } else {
-                // Assume it's in feet only like "5.4"
                 heightInFeet = Float.parseFloat(heightStr.replaceAll("[^\\d.]", "").trim());
             }
 
@@ -384,7 +383,6 @@ public class HomeActivity extends AppCompatActivity {
             String result = String.format("%.1f", bmi);
             tvBMIValue.setText("BMI: " + result);
 
-            // Badge logic
             if (bmi < 18.5f) {
                 tvBMIBadge.setText("Underweight");
                 tvBMIBadge.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.blue)));
@@ -406,57 +404,6 @@ public class HomeActivity extends AppCompatActivity {
             Log.e("BMI", "Error calculating BMI", e);
         }
     }
-
-
-    private void loadWeightTrendChart() {
-        if (mAuth.getCurrentUser() == null) {
-            weightTrendChart.setNoDataText("Not available for Guest Mode.");
-            weightTrendChart.setNoDataTextColor(getColor(R.color.secondary));
-            weightTrendChart.invalidate();
-            return;
-        }
-
-        List<Entry> entries = new ArrayList<>();
-        String uid = mAuth.getCurrentUser().getUid();
-
-        db.collection("users")
-                .document(uid)
-                .collection("weightHistory")
-                .orderBy("date")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    int index = 1;
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                        Double weight = doc.getDouble("weight");
-                        if (weight != null) {
-                            entries.add(new Entry(index++, weight.floatValue()));
-                        }
-                    }
-
-                    if (entries.isEmpty()) {
-                        weightTrendChart.setNoDataText("No weight data available.");
-                        weightTrendChart.setNoDataTextColor(getColor(R.color.secondary));
-                        weightTrendChart.invalidate();
-                        return;
-                    }
-
-                    LineDataSet dataSet = new LineDataSet(entries, "Weight (kg)");
-                    dataSet.setColor(getColor(R.color.primary));
-                    dataSet.setCircleColor(getColor(R.color.primary));
-                    dataSet.setLineWidth(2f);
-                    dataSet.setDrawValues(false);
-
-                    LineData lineData = new LineData(dataSet);
-                    weightTrendChart.setData(lineData);
-                    weightTrendChart.getDescription().setEnabled(false);
-                    weightTrendChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-                    weightTrendChart.getAxisRight().setEnabled(false);
-                    weightTrendChart.getAxisLeft().setDrawGridLines(false);
-                    weightTrendChart.getXAxis().setDrawGridLines(false);
-                    weightTrendChart.invalidate();
-                });
-    }
-
 
     private void setupProfileIconClick() {
         View appBar = findViewById(R.id.app_bar);

@@ -20,6 +20,9 @@
         android:theme="@style/Theme.HealthyBytes"
         tools:targetApi="31">
 
+        <activity android:name=".MealSuggestion" />
+        <activity android:name=".HelpActivity"/>
+        <activity android:name=".CoachActivity"/>
         <activity android:name=".AboutUsActivity" />
         <receiver android:name=".ProfileReminderReceiver" android:exported="false"/>
         <receiver android:name=".ReminderReceiver" />

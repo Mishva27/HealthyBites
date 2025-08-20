@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_meal_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:backgroundTint="@color/white">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:backgroundTint="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Select your meals"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:textSize="16sp"/>
+
+        <RadioGroup
+            android:id="@+id/meal_type_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <RadioButton
+                android:id="@+id/radio_breakfast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Breakfast"
+                android:textColor="@color/primary"
+                android:buttonTint="@color/primary"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/radio_lunch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lunch"
+                android:textColor="@color/primary"
+                android:buttonTint="@color/primary"/>
+
+            <RadioButton
+                android:id="@+id/radio_dinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dinner"
+                android:textColor="@color/primary"
+                android:buttonTint="@color/primary"/>
+        </RadioGroup>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Search Food Items "
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:textSize="16sp"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/food_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search food item"
+            android:inputType="text"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext"
+            android:dropDownHeight="wrap_content"
+            android:completionThreshold="1"
+            android:layout_marginBottom="12dp"/>
+
+
+        <EditText
+            android:id="@+id/quantity_input"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Enter Quantity"
+            android:inputType="number"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add to Meal"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/total_calories_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Calories: 0"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textColor="@color/primary"/>
+
+        <ListView
+            android:id="@+id/meal_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>
