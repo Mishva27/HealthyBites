@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contact"
-            android:backgroundTint="@color/primary"
+            android:backgroundTint="@color/secondary"
             android:textColor="@android:color/white"
             android:layout_marginTop="12dp" />
     </LinearLayout>

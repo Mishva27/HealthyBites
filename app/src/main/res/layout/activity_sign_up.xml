@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@color/white">
 
 
     <LinearLayout
@@ -123,7 +124,6 @@
                 android:id="@+id/checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/primary"
                 android:checked="true" />
 
             <TextView
@@ -147,8 +147,8 @@
             android:layout_height="wrap_content"
             android:text="Sign Up"
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/primary"
-            android:textColor="#FFFFFF" />
+            android:backgroundTint="@color/secondary"
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:layout_width="wrap_content"

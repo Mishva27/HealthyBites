@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:text="Add to Meal"
             android:textColor="@android:color/white"
-            android:backgroundTint="@color/primary"
+            android:backgroundTint="@color/secondary"
             android:layout_marginBottom="16dp" />
 
         <TextView
